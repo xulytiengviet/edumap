@@ -1,0 +1,90 @@
+{
+  "schema": "edumap-target-2026-v1",
+  "target_total": 226,
+  "source": "User-provided infographic, 2026-10-13",
+  "verification": "source_transcription_only",
+  "note": "Targets by group; not an identified inventory of 226 unique institutions. Police label 8(6) preserved, counted as 8.",
+  "metrics": {
+    "learners": 2780000,
+    "undergraduates": 2530000,
+    "masters": 140000,
+    "doctoral": 16200
+  },
+  "groups": [
+    {
+      "name": "Giáo dục & Đào tạo",
+      "count": 41,
+      "source_label": "41"
+    },
+    {
+      "name": "Tư pháp",
+      "count": 1,
+      "source_label": "1"
+    },
+    {
+      "name": "Nội vụ",
+      "count": 1,
+      "source_label": "1"
+    },
+    {
+      "name": "Khoa học Công nghệ",
+      "count": 1,
+      "source_label": "1"
+    },
+    {
+      "name": "Tài chính",
+      "count": 4,
+      "source_label": "4"
+    },
+    {
+      "name": "Nông nghiệp Môi trường",
+      "count": 6,
+      "source_label": "6"
+    },
+    {
+      "name": "Xây dựng",
+      "count": 8,
+      "source_label": "8"
+    },
+    {
+      "name": "Công thương",
+      "count": 10,
+      "source_label": "10"
+    },
+    {
+      "name": "Y tế",
+      "count": 11,
+      "source_label": "11"
+    },
+    {
+      "name": "VHTTDL",
+      "count": 13,
+      "source_label": "13"
+    },
+    {
+      "name": "Công an",
+      "count": 8,
+      "source_label": "8(6)"
+    },
+    {
+      "name": "Quốc phòng",
+      "count": 19,
+      "source_label": "19"
+    },
+    {
+      "name": "Cơ quan TW khác",
+      "count": 9,
+      "source_label": "9"
+    },
+    {
+      "name": "UBND Tỉnh/Thành",
+      "count": 26,
+      "source_label": "26"
+    },
+    {
+      "name": "Ngoài công lập",
+      "count": 68,
+      "source_label": "68"
+    }
+  ]
+}
