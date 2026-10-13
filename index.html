@@ -36,7 +36,7 @@ main{min-width:0;padding:20px 24px 28px}.top{display:flex;align-items:center;jus
 <aside class="sidebar">
  <div class="brand"><div class="logo">🎓</div><div><h1>EduMap <span style="color:#2369df">GIS</span></h1><div class="muted">Vietnam Higher Education Atlas</div></div></div>
  <div><span class="tag" id="data-status">Dữ liệu mẫu, chưa kiểm chứng</span></div>
- <div class="side-group"><label for="catalog">Nguồn danh mục</label><select class="field" id="catalog"><option value="reference">285 hồ sơ ứng viên (nguồn 2025)</option><option value="sample">51 hồ sơ minh họa ban đầu</option></select><div class="muted">226 là mục tiêu xác minh 2026, chưa phải số bản ghi được chứng thực.</div></div><div class="side-group"><label for="search">Tra cứu trường đại học</label><input class="field" id="search" placeholder="Tên trường, tỉnh, website..."></div>
+ <div class="side-group"><label for="catalog">Nguồn danh mục</label><select class="field" id="catalog"><option value="review">226 hồ sơ cần rà soát (51 + 175)</option><option value="reference">285 hồ sơ ứng viên (nguồn 2025)</option><option value="sample">51 hồ sơ minh họa ban đầu</option></select><div class="muted">226 là mục tiêu xác minh 2026, chưa phải số bản ghi được chứng thực.</div></div><div class="side-group"><label for="search">Tra cứu trường đại học</label><input class="field" id="search" placeholder="Tên trường, tỉnh, website..."></div>
  <div class="side-group"><label for="type">Loại hình</label><select class="field" id="type"><option value="">Tất cả loại hình</option></select></div>
  <div class="side-group"><label for="manager">Cơ quan quản lý</label><select class="field" id="manager"><option value="">Tất cả đơn vị</option></select></div>
  <div class="side-group"><label for="location">Tỉnh / thành phố (theo nguồn)</label><select class="field" id="location"><option value="">Tất cả địa điểm</option></select></div>
@@ -67,20 +67,21 @@ main{min-width:0;padding:20px 24px 28px}.top{display:flex;align-items:center;jus
 window.addEventListener('load',async()=>{
 const $=s=>document.querySelector(s), escapeHTML=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const cityCoords={'Hà Nội':[21.0285,105.8542],'TP.HCM':[10.8231,106.6297],'Đà Nẵng':[16.0544,108.2022],'Huế':[16.4637,107.5909],'Thái Nguyên':[21.593,105.844],'Cần Thơ':[10.0452,105.7469],'Đà Lạt':[11.9404,108.4583],'Lâm Đồng':[11.9404,108.4583],'Bắc Ninh':[21.1861,106.0763],'Bình Định':[13.782,109.219],'Quảng Ninh':[20.951,107.08],'Long An':[10.535,106.413]};
-let all=[],samples=[],candidates=[],visible=[],pointFeatures=[],map,clusterLayer,pointsLayer,boundaryLayer,chartType,chartCity;
+let all=[],samples=[],candidates=[],reviewList=[],visible=[],pointFeatures=[],map,clusterLayer,pointsLayer,boundaryLayer,chartType,chartCity;
 if(!window.L){$('#notice').textContent='Không tải được thư viện bản đồ Leaflet. Kiểm tra mạng/CDN.';return;}
 map=L.map('map',{zoomControl:false}).setView([16.3,106.5],6);L.control.zoom({position:'topright'}).addTo(map);
 const baseLayers={osm:L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}),esri:L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'Tiles © Esri'})};baseLayers.osm.addTo(map);
 $('#basemap').addEventListener('change',e=>{Object.values(baseLayers).forEach(x=>map.removeLayer(x));baseLayers[e.target.value].addTo(map);baseLayers[e.target.value].bringToBack();});
 clusterLayer=L.layerGroup().addTo(map);pointsLayer=L.layerGroup().addTo(map);
 try{
-const [a,b]=await Promise.all([fetch('./data/universities.json',{cache:'no-store'}),fetch('./data/candidate_inventory_2025.json',{cache:'no-store'})]);
+const [a,b,c]=await Promise.all([fetch('./data/universities.json',{cache:'no-store'}),fetch('./data/candidate_inventory_2025.json',{cache:'no-store'}),fetch('./data/roster_226_review.json',{cache:'no-store'})]);
 if(!a.ok||!b.ok)throw Error('Thiếu dữ liệu GitHub Pages');
 samples=(await a.json()).universities||[];
 const raw=(await b.json()).institutions||[];
+reviewList=(await c.json()).records.map(d=>({...d,type:d.ownership||'Chưa xác minh',founded:null,area:null,scale:d.previous_record?'Nguồn 51 hồ sơ':'Ứng viên bổ sung',website:d.website||'',location:d.location||'',manager:d.manager||''}));
 candidates=raw.map(d=>({name:d.name,code:d.code,location:'',manager:'',type:d.source_private_mark?'Ngoài công lập (ký hiệu nguồn 2025)':'Chưa xác định',founded:null,area:null,scale:'',website:'',data_status:'Ứng viên 2025, chưa xác minh năm 2026'}));
-all=candidates;
-$('#data-status').textContent=raw.length+' ứng viên · chưa xác minh 2026';
+all=reviewList;
+$('#data-status').textContent='226 hồ sơ cần rà soát · không phải danh mục chính thức';
 }catch(err){$('#notice').textContent='Không tải được danh mục: '+err.message;return;}
 function resetFilterOptions(){
 for(const [id,k] of [['type','type'],['manager','manager'],['location','location']]){
@@ -91,8 +92,8 @@ el.value='';
 $('#search').value='';
 }
 $('#catalog').addEventListener('change',()=>{
-all=$('#catalog').value==='sample'?samples:candidates;
-$('#data-status').textContent=all.length+($('#catalog').value==='sample'?' hồ sơ minh họa':' ứng viên 2025 · chưa xác minh 2026');
+all=$('#catalog').value==='sample'?samples:$('#catalog').value==='review'?reviewList:candidates;
+$('#data-status').textContent=all.length+($('#catalog').value==='sample'?' hồ sơ minh họa':$('#catalog').value==='review'?' hồ sơ đang rà soát, chưa công bố chính thức':' ứng viên 2025 · chưa xác minh 2026');
 resetFilterOptions();fetch('./data/target_226.json').then(r=>r.json()).then(d=>{let sum=0;for(const g of d.groups){sum+=g.count;const row=document.createElement('tr');for(const value of [g.name,g.source_label]){const cell=document.createElement('td');cell.textContent=value;row.appendChild(cell)}document.querySelector('#target-rows').appendChild(row)}document.querySelector('#target-check').textContent=sum===226?'Tổng đối chiếu: 226/226':'Sai lệch: '+sum}).catch(e=>document.querySelector('#target-check').textContent='Không tải được cơ cấu: '+e.message);
 filter();
 });
@@ -101,7 +102,7 @@ resetFilterOptions();
 const norm=s=>String(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d').toLowerCase();
 function filter(){const q=norm($('#search').value),type=$('#type').value,manager=$('#manager').value,location=$('#location').value;visible=all.filter(d=>(!type||d.type===type)&&(!manager||d.manager===manager)&&(!location||d.location===location)&&(!q||norm([d.name,d.location,d.manager,d.website].join(' ')).includes(q)));render();}
 function render(){
-$('#total').textContent=visible.length;$('#public').textContent=visible.filter(d=>d.type==='Công lập').length;$('#private').textContent=visible.filter(d=>d.type==='Ngoài công lập').length;$('#count').textContent=visible.length+' / '+all.length+' bản ghi ('+($('#catalog').value==='reference'?'ứng viên 2025':'minh họa')+')';
+$('#total').textContent=visible.length;$('#public').textContent=visible.filter(d=>d.type==='Công lập').length;$('#private').textContent=visible.filter(d=>d.type==='Ngoài công lập').length;$('#count').textContent=visible.length+' / '+all.length+' bản ghi ('+($('#catalog').value==='reference'?'ứng viên 2025':$('#catalog').value==='review'?'chờ xác minh':'minh họa')+')';
 const tbody=$('#rows');tbody.replaceChildren();for(const d of visible){const tr=document.createElement('tr');const name=document.createElement('td');const b=document.createElement('button');b.className='school-button';b.textContent=d.name;b.title='Đến vị trí đại diện của địa điểm (nếu có)';b.onclick=()=>{const ll=cityCoords[d.location];if(ll)map.setView(ll,11);else $('#notice').textContent='Địa điểm này chưa được gắn tọa độ đại diện.';};name.append(b);tr.append(name);
 for(const val of [d.location,d.type,d.manager,d.founded,d.area,d.scale]){const td=document.createElement('td');td.textContent=val??'—';tr.append(td);}
 const td=document.createElement('td');if(/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(d.website||'')){const a=document.createElement('a');a.textContent=d.website;a.href='https://'+d.website;a.target='_blank';a.rel='noopener noreferrer';td.append(a);}else td.textContent='—';tr.append(td);tbody.append(tr);}
