@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EduMap | Tra cứu giáo dục đại học Việt Nam</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root{--navy:#10283f;--blue:#2369df;--line:#e2e8f2;--muted:#6c7f92;--bg:#f3f6fb;--white:#fff}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--navy);font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+button,select,input{font:inherit}button{cursor:pointer}a{color:#1d5fbd}
+.app{display:grid;grid-template-columns:310px minmax(0,1fr);min-height:100vh}
+.sidebar{background:#fff;border-right:1px solid var(--line);padding:22px 18px;display:flex;flex-direction:column;gap:16px}
+.brand{display:flex;align-items:center;gap:12px}.logo{display:grid;place-items:center;width:43px;height:43px;background:#e9f1ff;border-radius:14px;font-size:23px}
+.brand h1{margin:0;font-size:24px;letter-spacing:-.8px}.muted{color:var(--muted);font-size:12px}
+.tag{font-size:12px;border-radius:30px;padding:5px 11px;background:#fff4dc;color:#946114;display:inline-block}
+label{font-weight:650;font-size:12px;display:block;margin-bottom:5px}.field{width:100%;padding:11px 12px;border:1px solid #d8e2ee;border-radius:10px;background:#fff;outline-offset:2px}
+.btn{padding:9px 13px;border-radius:10px;border:1px solid var(--line);background:white;color:var(--navy);font-weight:600}
+.btn.primary{background:var(--blue);color:white;border-color:var(--blue)}.btn:hover{filter:brightness(.97)}
+.side-group{display:grid;gap:7px}.side-note{padding:12px;background:#f5f8fd;border-radius:12px;font-size:12px;color:#4f6477}
+main{min-width:0;padding:20px 24px 28px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}.top h2{font-size:24px;margin:0;letter-spacing:-.6px}.actions{display:flex;gap:8px;flex-wrap:wrap}
+.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.card,.panel{background:white;border:1px solid var(--line);border-radius:15px;box-shadow:0 2px 9px rgba(30,66,110,.035)}
+.card{padding:16px}.card strong{display:block;font-size:27px;line-height:1.3}.card span{font-size:12px;color:var(--muted)}
+.workspace{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(270px,1fr);gap:15px}
+.panel{min-width:0;overflow:hidden}.panel-head{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:8px}.panel-head h3{margin:0;font-size:14px}
+#map{height:465px;width:100%;background:#dce7f1}.map-bottom{padding:8px 12px;font-size:12px;color:#637c92}
+.charts{display:grid;grid-template-rows:1fr 1fr;gap:15px}.chart-inner{padding:13px;height:190px}
+.table-panel{margin-top:15px}.table-scroll{overflow:auto;max-height:430px}table{width:100%;border-collapse:collapse;white-space:nowrap}th,td{text-align:left;padding:11px 14px;border-bottom:1px solid #eef2f6}th{font-size:12px;color:#5e7389;background:#f9fbfd;position:sticky;top:0}tbody tr:hover{background:#f5f9ff}
+.school-button{border:0;background:none;color:#1d5fbd;text-align:left;font-weight:650;cursor:pointer;padding:0;white-space:normal}
+.pill{display:inline-block;border-radius:20px;padding:3px 9px;background:#eaf1ff;color:#2b5aa2;font-size:11px}.pill.orange{background:#fff3dd;color:#9c6300}
+#notice{min-height:20px;color:#ae5e00;font-size:12px}.status{margin-top:8px;display:block}footer{margin-top:16px;color:#657b90;font-size:12px;text-align:center}
+.leaflet-popup-content{min-width:170px}.map-key{padding:7px 10px;background:white;box-shadow:0 2px 10px #0002;border-radius:8px;font-size:12px}
+@media(max-width:1100px){.app{grid-template-columns:250px minmax(0,1fr)}.workspace{grid-template-columns:1fr}.charts{grid-template-columns:1fr 1fr;grid-template-rows:auto}.chart-inner{height:210px}}
+@media(max-width:740px){.app{display:block}.sidebar{border:0;border-bottom:1px solid var(--line);padding:14px}.sidebar .side-note{display:none}main{padding:14px}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.charts{grid-template-columns:1fr}#map{height:380px}.top h2{font-size:19px}}
+</style></head><body><div class="app">
+<aside class="sidebar">
+ <div class="brand"><div class="logo">🎓</div><div><h1>EduMap <span style="color:#2369df">GIS</span></h1><div class="muted">Vietnam Higher Education Atlas</div></div></div>
+ <div><span class="tag" id="data-status">Dữ liệu mẫu, chưa kiểm chứng</span></div>
+ <div class="side-group"><label for="search">Tra cứu trường đại học</label><input class="field" id="search" placeholder="Tên trường, tỉnh, website..."></div>
+ <div class="side-group"><label for="type">Loại hình</label><select class="field" id="type"><option value="">Tất cả loại hình</option></select></div>
+ <div class="side-group"><label for="manager">Cơ quan quản lý</label><select class="field" id="manager"><option value="">Tất cả đơn vị</option></select></div>
+ <div class="side-group"><label for="location">Tỉnh / thành phố (theo nguồn)</label><select class="field" id="location"><option value="">Tất cả địa điểm</option></select></div>
+ <div class="side-group"><label for="basemap">Lớp nền bản đồ</label><select class="field" id="basemap"><option value="osm">Đường phố · OpenStreetMap</option><option value="esri">Vệ tinh · Esri</option></select></div>
+ <div class="side-group"><label><input type="checkbox" id="boundaries"> Hiển thị ranh giới 34 tỉnh (ClipMap)</label><div class="muted">Dữ liệu tải trực tiếp từ R2, chỉ khi được yêu cầu</div></div>
+ <div class="side-group"><label for="geojson">Nạp tọa độ trường (GeoJSON)</label><input id="geojson" type="file" accept=".geojson,.json,application/json" class="field"><span class="muted">Feature Point: tên trường tại thuộc tính name; tọa độ chuẩn WGS84.</span></div>
+ <button class="btn" id="reset">↺ Đặt lại bộ lọc</button>
+ <div class="side-note"><b>Lưu ý khoa học dữ liệu</b><div>Điểm tròn trên bản đồ đang thể hiện <b>tổng số trường theo thành phố</b> tại vị trí đại diện, <b>không phải tọa độ khuôn viên</b>. Các điểm trường chính xác chỉ hiện khi cung cấp GeoJSON.</div></div>
+ <div class="muted">Long Ngo · MIT © 2026<br><a href="https://github.com/xulytiengviet/edumap" target="_blank" rel="noopener">Mã nguồn GitHub ↗</a></div>
+</aside>
+<main>
+ <div class="top"><div><h2>Bản đồ Giáo dục Đại học Việt Nam</h2><div class="muted">Khám phá, lọc và phân tích phân bố cơ sở giáo dục đại học</div></div>
+ <div class="actions"><button class="btn" id="csv">↓ CSV</button><button class="btn" id="exportgeo">↓ GeoJSON điểm trường</button><button class="btn primary" id="home">⌖ Toàn quốc</button></div></div>
+ <div class="cards">
+  <div class="card"><strong>226</strong><span>Mục tiêu danh mục</span></div>
+  <div class="card"><strong id="total">—</strong><span>Bản ghi đang có</span></div>
+  <div class="card"><strong id="public">—</strong><span>Công lập (đang lọc)</span></div>
+  <div class="card"><strong id="private">—</strong><span>Ngoài công lập (đang lọc)</span></div>
+ </div>
+ <div class="workspace">
+  <section class="panel"><div class="panel-head"><h3>🗺️ Phân bố theo địa điểm</h3><span class="muted">WGS84 · EPSG:4326</span></div><div id="map"></div><div class="map-bottom">● Kích thước vòng tròn = số bản ghi theo địa điểm · Điểm địa điểm chỉ mang tính đại diện</div></section>
+  <div class="charts"><section class="panel"><div class="panel-head"><h3>Phân loại cơ sở đào tạo</h3></div><div class="chart-inner"><canvas id="typeChart"></canvas></div></section><section class="panel"><div class="panel-head"><h3>Top địa điểm theo số cơ sở</h3></div><div class="chart-inner"><canvas id="cityChart"></canvas></div></section></div>
+ </div>
+ <section class="panel table-panel"><div class="panel-head"><h3>📋 Danh mục tra cứu</h3><span class="muted" id="count">—</span></div><div style="padding:8px 16px" id="notice"></div><div class="table-scroll"><table><thead><tr><th>Trường / Cơ sở</th><th>Địa điểm nguồn</th><th>Loại hình</th><th>Cơ quan quản lý</th><th>Thành lập</th><th>Diện tích (ha)*</th><th>Quy mô*</th><th>Website</th></tr></thead><tbody id="rows"></tbody></table></div></section>
+ <footer>* Các giá trị diện tích, quy mô và phân loại của bản dữ liệu mẫu chưa được xác minh độc lập. Không sử dụng làm thống kê chính thức.<br>© 2026 Long Ngo · MIT · Nền bản đồ © OpenStreetMap contributors / Esri theo lớp chọn</footer>
+</main></div>
+<script>
+window.addEventListener('load',async()=>{
+const $=s=>document.querySelector(s), escapeHTML=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const cityCoords={'Hà Nội':[21.0285,105.8542],'TP.HCM':[10.8231,106.6297],'Đà Nẵng':[16.0544,108.2022],'Huế':[16.4637,107.5909],'Thái Nguyên':[21.593,105.844],'Cần Thơ':[10.0452,105.7469],'Đà Lạt':[11.9404,108.4583],'Lâm Đồng':[11.9404,108.4583],'Bắc Ninh':[21.1861,106.0763],'Bình Định':[13.782,109.219],'Quảng Ninh':[20.951,107.08],'Long An':[10.535,106.413]};
+let all=[],visible=[],pointFeatures=[],map,clusterLayer,pointsLayer,boundaryLayer,chartType,chartCity;
+if(!window.L){$('#notice').textContent='Không tải được thư viện bản đồ Leaflet. Kiểm tra mạng/CDN.';return;}
+map=L.map('map',{zoomControl:false}).setView([16.3,106.5],6);L.control.zoom({position:'topright'}).addTo(map);
+const baseLayers={osm:L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}),esri:L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'Tiles © Esri'})};baseLayers.osm.addTo(map);
+$('#basemap').addEventListener('change',e=>{Object.values(baseLayers).forEach(x=>map.removeLayer(x));baseLayers[e.target.value].addTo(map);baseLayers[e.target.value].bringToBack();});
+clusterLayer=L.layerGroup().addTo(map);pointsLayer=L.layerGroup().addTo(map);
+try{const resp=await fetch('./data/universities.json',{cache:'no-store'});if(!resp.ok)throw Error('HTTP '+resp.status);const j=await resp.json();all=j.universities||[];$('#data-status').textContent='Dữ liệu mẫu · '+all.length+'/226 cơ sở';}catch(err){$('#notice').textContent='Không tải được danh mục: '+err.message;return;}
+const unique=k=>[...new Set(all.map(d=>d[k]).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'vi'));
+for(const [id,k] of [['type','type'],['manager','manager'],['location','location']])unique(k).forEach(v=>{$('#'+id).add(new Option(v,v));});
+const norm=s=>String(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d').toLowerCase();
+function filter(){const q=norm($('#search').value),type=$('#type').value,manager=$('#manager').value,location=$('#location').value;visible=all.filter(d=>(!type||d.type===type)&&(!manager||d.manager===manager)&&(!location||d.location===location)&&(!q||norm([d.name,d.location,d.manager,d.website].join(' ')).includes(q)));render();}
+function render(){
+$('#total').textContent=visible.length;$('#public').textContent=visible.filter(d=>d.type==='Công lập').length;$('#private').textContent=visible.filter(d=>d.type==='Ngoài công lập').length;$('#count').textContent=visible.length+' / '+all.length+' bản ghi';
+const tbody=$('#rows');tbody.replaceChildren();for(const d of visible){const tr=document.createElement('tr');const name=document.createElement('td');const b=document.createElement('button');b.className='school-button';b.textContent=d.name;b.title='Đến vị trí đại diện của địa điểm (nếu có)';b.onclick=()=>{const ll=cityCoords[d.location];if(ll)map.setView(ll,11);else $('#notice').textContent='Địa điểm này chưa được gắn tọa độ đại diện.';};name.append(b);tr.append(name);
+for(const val of [d.location,d.type,d.manager,d.founded,d.area,d.scale]){const td=document.createElement('td');td.textContent=val??'—';tr.append(td);}
+const td=document.createElement('td');if(/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(d.website||'')){const a=document.createElement('a');a.textContent=d.website;a.href='https://'+d.website;a.target='_blank';a.rel='noopener noreferrer';td.append(a);}else td.textContent='—';tr.append(td);tbody.append(tr);}
+clusterLayer.clearLayers();const groups={};visible.forEach(d=>{if(cityCoords[d.location])groups[d.location]=(groups[d.location]||0)+1;});
+Object.entries(groups).forEach(([name,count])=>{const circle=L.circleMarker(cityCoords[name],{radius:Math.min(24,6+Math.sqrt(count)*3),color:'#ffffff',weight:2,fillColor:'#2369df',fillOpacity:.85}).bindPopup('<b>'+escapeHTML(name)+'</b><div>'+count+' cơ sở trong bộ dữ liệu</div><small>Vị trí đại diện địa điểm, không phải khuôn viên.</small>');circle.on('click',()=>{ $('#location').value=name;filter();});clusterLayer.addLayer(circle);});
+pointsLayer.clearLayers();for(const f of pointFeatures){const p=f.properties||{};if(!visible.some(d=>norm(d.name)===norm(p.name||p.ten||p.school)))continue;const [lng,lat]=f.geometry.coordinates;L.circleMarker([lat,lng],{radius:5,color:'#176a45',fillColor:'#2fbe76',fillOpacity:1}).bindPopup(escapeHTML(p.name||p.ten||p.school)).addTo(pointsLayer);}
+if(window.Chart){const types={};visible.forEach(d=>types[d.type]=(types[d.type]||0)+1);const common={responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}}};if(chartType)chartType.destroy();chartType=new Chart($('#typeChart'),{type:'doughnut',data:{labels:Object.keys(types),datasets:[{data:Object.values(types),backgroundColor:['#2369df','#f2ac37','#19a980']}]},options:common});
+if(chartCity)chartCity.destroy();const rank=Object.entries(visible.reduce((a,d)=>(a[d.location]=(a[d.location]||0)+1,a),{})).sort((a,b)=>b[1]-a[1]).slice(0,7);
+chartCity=new Chart($('#cityChart'),{type:'bar',data:{labels:rank.map(x=>x[0]),datasets:[{label:'Cơ sở',data:rank.map(x=>x[1]),backgroundColor:'#4d92e9',borderRadius:5}]},options:{...common,indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,ticks:{precision:0}}}}});}
+}
+['search','type','manager','location'].forEach(id=>$('#'+id).addEventListener(id==='search'?'input':'change',filter));
+$('#reset').onclick=()=>{['search','type','manager','location'].forEach(id=>$('#'+id).value='');filter();};$('#home').onclick=()=>map.setView([16.3,106.5],6);
+$('#boundaries').onchange=async e=>{if(!e.target.checked){if(boundaryLayer)map.removeLayer(boundaryLayer);return;}$('#notice').textContent='Đang tải ranh giới hành chính từ ClipMap…';
+try{if(!boundaryLayer){const u='https://pub-7dd53e3ae939474d8bbfe3cec7145b16.r2.dev/Vi%E1%BB%87t%20Nam%20(t%E1%BB%89nh%20th%C3%A0nh)%20-%2034.geojson';const resp=await fetch(u);if(!resp.ok)throw Error('HTTP '+resp.status);const json=await resp.json();boundaryLayer=L.geoJSON(json,{style:{color:'#2e6fbb',weight:1.4,fillOpacity:0}});}boundaryLayer.addTo(map);$('#notice').textContent='';}catch(err){e.target.checked=false;$('#notice').textContent='Không tải được ranh giới R2 ('+err.message+'). Có thể cần CORS hoặc cập nhật đường dẫn nguồn.';}};
+$('#geojson').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{const j=JSON.parse(await file.text());if(j.type!=='FeatureCollection'||!Array.isArray(j.features))throw Error('Cần FeatureCollection GeoJSON');pointFeatures=j.features.filter(f=>f.geometry?.type==='Point'&&Array.isArray(f.geometry.coordinates)&&f.geometry.coordinates.length>=2&&Number.isFinite(f.geometry.coordinates[0])&&Number.isFinite(f.geometry.coordinates[1]));render();$('#notice').textContent='Đã nạp '+pointFeatures.length+' điểm. Chỉ hiện các điểm khớp tên trường trong danh mục.';}catch(err){$('#notice').textContent='GeoJSON không hợp lệ: '+err.message;}};
+const download=(name,content,mime)=>{const u=URL.createObjectURL(new Blob([content],{type:mime}));const a=document.createElement('a');a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);};
+$('#csv').onclick=()=>{const cols=['name','location','type','manager','founded','area','scale','website'];const csv='\ufeff'+[cols.join(','),...visible.map(d=>cols.map(k=>'"'+String(d[k]??'').replace(/"/g,'""')+'"').join(','))].join('\r\n');download('edumap-danh-muc.csv',csv,'text/csv;charset=utf-8');};
+$('#exportgeo').onclick=()=>{const names=new Set(visible.map(d=>norm(d.name)));const features=pointFeatures.filter(f=>names.has(norm(f.properties?.name||f.properties?.ten||f.properties?.school)));download('edumap-diem-truong.geojson',JSON.stringify({type:'FeatureCollection',features},null,2),'application/geo+json');if(!features.length)$('#notice').textContent='Chưa có điểm chính xác. Tệp GeoJSON trống; hãy nạp tọa độ trường trước khi xuất.';};
+filter();
+});
+</script></body></html>
