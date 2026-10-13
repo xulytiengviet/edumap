@@ -75,7 +75,7 @@ $('#basemap').addEventListener('change',e=>{Object.values(baseLayers).forEach(x=
 clusterLayer=L.layerGroup().addTo(map);pointsLayer=L.layerGroup().addTo(map);
 try{
 const [a,b,c]=await Promise.all([fetch('./data/universities.json',{cache:'no-store'}),fetch('./data/candidate_inventory_2025.json',{cache:'no-store'}),fetch('./data/roster_226_review.json',{cache:'no-store'})]);
-if(!a.ok||!b.ok)throw Error('Thiếu dữ liệu GitHub Pages');
+if(!a.ok||!b.ok||!c.ok)throw Error('Thiếu dữ liệu GitHub Pages');
 samples=(await a.json()).universities||[];
 const raw=(await b.json()).institutions||[];
 reviewList=(await c.json()).records.map(d=>({...d,type:d.ownership||'Chưa xác minh',founded:null,area:null,scale:d.previous_record?'Nguồn 51 hồ sơ':'Ứng viên bổ sung',website:d.website||'',location:d.location||'',manager:d.manager||''}));
@@ -94,9 +94,10 @@ $('#search').value='';
 $('#catalog').addEventListener('change',()=>{
 all=$('#catalog').value==='sample'?samples:$('#catalog').value==='review'?reviewList:candidates;
 $('#data-status').textContent=all.length+($('#catalog').value==='sample'?' hồ sơ minh họa':$('#catalog').value==='review'?' hồ sơ đang rà soát, chưa công bố chính thức':' ứng viên 2025 · chưa xác minh 2026');
-resetFilterOptions();fetch('./data/target_226.json').then(r=>r.json()).then(d=>{let sum=0;for(const g of d.groups){sum+=g.count;const row=document.createElement('tr');for(const value of [g.name,g.source_label]){const cell=document.createElement('td');cell.textContent=value;row.appendChild(cell)}document.querySelector('#target-rows').appendChild(row)}document.querySelector('#target-check').textContent=sum===226?'Tổng đối chiếu: 226/226':'Sai lệch: '+sum}).catch(e=>document.querySelector('#target-check').textContent='Không tải được cơ cấu: '+e.message);
-filter();
+resetFilterOptions();filter();
 });
+/* target counts (load once) */
+fetch('./data/target_226.json').then(r=>r.json()).then(d=>{let sum=0;for(const g of d.groups){sum+=g.count;const row=document.createElement('tr');for(const value of [g.name,g.source_label]){const cell=document.createElement('td');cell.textContent=value;row.appendChild(cell)}document.querySelector('#target-rows').appendChild(row)}document.querySelector('#target-check').textContent=sum===226?'Tổng đối chiếu: 226/226':'Sai lệch: '+sum}).catch(e=>document.querySelector('#target-check').textContent='Không tải được cơ cấu: '+e.message);
 const unique=k=>[...new Set(all.map(d=>d[k]).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'vi'));
 resetFilterOptions();
 const norm=s=>String(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d').toLowerCase();
