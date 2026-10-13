@@ -1,0 +1,521 @@
+{
+  "metadata": {
+    "title": "EduMap",
+    "target": 226,
+    "verified": false,
+    "source": "User-provided HTML demonstration data (October 2026)",
+    "note": "Sample values; not independently verified. Geographic coordinates intentionally omitted."
+  },
+  "universities": [
+    {
+      "name": "Đại học Quốc gia Hà Nội",
+      "location": "Hà Nội",
+      "manager": "Bộ GD-ĐT",
+      "type": "Công lập",
+      "founded": 1993,
+      "area": 1200,
+      "scale": "~50.000 sinh viên",
+      "website": "vnu.edu.vn"
+    },
+    {
+      "name": "Đại học Quốc gia TP. Hồ Chí Minh",
+      "location": "TP.HCM",
+      "manager": "Bộ GD-ĐT",
+      "type": "Công lập",
+      "founded": 1995,
+      "area": 650,
+      "scale": "~70.000 sinh viên",
+      "website": "vnuhcm.edu.vn"
+    },
+    {
+      "name": "Đại học Bách khoa Hà Nội",
+      "location": "Hà Nội",
+      "manager": "Bộ GD-ĐT",
+      "type": "Công lập",
+      "founded": 1956,
+      "area": 26,
+      "scale": "~35.000 sinh viên",
+      "website": "hust.edu.vn"
+    },
+    {
+      "name": "Đại học Kinh tế Quốc dân",
+      "location": "Hà Nội",
+      "manager": "Bộ GD-ĐT",
+      "type": "Công lập",
+      "founded": 1956,
+      "area": 15,
+      "scale": "~45.000 sinh viên",
+      "website": "neu.edu.vn"
+    },
+    {
+      "name": "Đại học Sư phạm Hà Nội",
+      "location": "Hà Nội",
+      "manager": "Bộ GD-ĐT",
+      "type": "Công lập",
+      "founded": 1951,
+      "area": 20,
+      "scale": "~20.000 sinh viên",
+      "website": "hnue.edu.vn"
+    },
+    {
+      "name": "Đại học Đà Nẵng",
+      "location": "Đà Nẵng",
+      "manager": "Bộ GD-ĐT",
+      "type": "Công lập",
+      "founded": 1994,
+      "area": 300,
+      "scale": "~40.000 sinh viên",
+      "website": "udn.vn"
+    },
+    {
+      "name": "Đại học Huế",
+      "location": "Huế",
+      "manager": "Bộ GD-ĐT",
+      "type": "Công lập",
+      "founded": 1994,
+      "area": 400,
+      "scale": "~30.000 sinh viên",
+      "website": "hueuni.edu.vn"
+    },
+    {
+      "name": "Đại học Thái Nguyên",
+      "location": "Thái Nguyên",
+      "manager": "Bộ GD-ĐT",
+      "type": "Công lập",
+      "founded": 1994,
+      "area": 500,
+      "scale": "~35.000 sinh viên",
+      "website": "tnu.edu.vn"
+    },
+    {
+      "name": "Trường Đại học Cần Thơ",
+      "location": "Cần Thơ",
+      "manager": "Bộ GD-ĐT",
+      "type": "Công lập",
+      "founded": 1966,
+      "area": 200,
+      "scale": "~35.000 sinh viên",
+      "website": "ctu.edu.vn"
+    },
+    {
+      "name": "Học viện Nông nghiệp Việt Nam",
+      "location": "Hà Nội",
+      "manager": "Bộ GD-ĐT",
+      "type": "Công lập",
+      "founded": 1956,
+      "area": 100,
+      "scale": "~20.000 sinh viên",
+      "website": "vnua.edu.vn"
+    },
+    {
+      "name": "Trường Đại học Xây dựng Hà Nội",
+      "location": "Hà Nội",
+      "manager": "Bộ GD-ĐT",
+      "type": "Công lập",
+      "founded": 1966,
+      "area": 12,
+      "scale": "~15.000 sinh viên",
+      "website": "nuce.edu.vn"
+    },
+    {
+      "name": "Trường Đại học Ngoại thương",
+      "location": "Hà Nội",
+      "manager": "Bộ GD-ĐT",
+      "type": "Công lập",
+      "founded": 1960,
+      "area": 10,
+      "scale": "~20.000 sinh viên",
+      "website": "ftu.edu.vn"
+    },
+    {
+      "name": "Học viện Quốc phòng",
+      "location": "Hà Nội",
+      "manager": "Bộ Quốc phòng",
+      "type": "Công lập",
+      "founded": 1946,
+      "area": 30,
+      "scale": "Cao học, NCS",
+      "website": "hocvienquocphong.vn"
+    },
+    {
+      "name": "Học viện Lục quân",
+      "location": "Đà Lạt",
+      "manager": "Bộ Quốc phòng",
+      "type": "Công lập",
+      "founded": 1946,
+      "area": 50,
+      "scale": "Đào tạo sĩ quan",
+      "website": "hocvienlucquan.edu.vn"
+    },
+    {
+      "name": "Học viện An ninh nhân dân",
+      "location": "Hà Nội",
+      "manager": "Bộ Công an",
+      "type": "Công lập",
+      "founded": 1946,
+      "area": 20,
+      "scale": "~10.000 sinh viên",
+      "website": "hvannd.edu.vn"
+    },
+    {
+      "name": "Học viện Cảnh sát nhân dân",
+      "location": "Hà Nội",
+      "manager": "Bộ Công an",
+      "type": "Công lập",
+      "founded": 1968,
+      "area": 25,
+      "scale": "~12.000 sinh viên",
+      "website": "hvcsnd.edu.vn"
+    },
+    {
+      "name": "Đại học Phòng cháy Chữa cháy",
+      "location": "Hà Nội",
+      "manager": "Bộ Công an",
+      "type": "Công lập",
+      "founded": 1963,
+      "area": 15,
+      "scale": "~5.000 sinh viên",
+      "website": "pccc.edu.vn"
+    },
+    {
+      "name": "Trường Đại học Y Hà Nội",
+      "location": "Hà Nội",
+      "manager": "Bộ Y tế",
+      "type": "Công lập",
+      "founded": 1902,
+      "area": 10,
+      "scale": "~10.000 sinh viên",
+      "website": "hmu.edu.vn"
+    },
+    {
+      "name": "Trường Đại học Dược Hà Nội",
+      "location": "Hà Nội",
+      "manager": "Bộ Y tế",
+      "type": "Công lập",
+      "founded": 1961,
+      "area": 5,
+      "scale": "~5.000 sinh viên",
+      "website": "hup.edu.vn"
+    },
+    {
+      "name": "Trường Đại học Y Dược TP.HCM",
+      "location": "TP.HCM",
+      "manager": "Bộ Y tế",
+      "type": "Công lập",
+      "founded": 1976,
+      "area": 8,
+      "scale": "~15.000 sinh viên",
+      "website": "ump.edu.vn"
+    },
+    {
+      "name": "Trường Đại học Văn hóa Hà Nội",
+      "location": "Hà Nội",
+      "manager": "Bộ VHTTDL",
+      "type": "Công lập",
+      "founded": 1959,
+      "area": 5,
+      "scale": "~8.000 sinh viên",
+      "website": "huc.edu.vn"
+    },
+    {
+      "name": "Trường Đại học Thể dục Thể thao Bắc Ninh",
+      "location": "Bắc Ninh",
+      "manager": "Bộ VHTTDL",
+      "type": "Công lập",
+      "founded": 1959,
+      "area": 20,
+      "scale": "~3.000 sinh viên",
+      "website": "upes.edu.vn"
+    },
+    {
+      "name": "Trường Đại học Kinh tế Kỹ thuật Công nghiệp",
+      "location": "Hà Nội",
+      "manager": "Bộ Công thương",
+      "type": "Công lập",
+      "founded": 1956,
+      "area": 15,
+      "scale": "~20.000 sinh viên",
+      "website": "uneti.edu.vn"
+    },
+    {
+      "name": "Trường Đại học Công nghiệp TP.HCM",
+      "location": "TP.HCM",
+      "manager": "Bộ Công thương",
+      "type": "Công lập",
+      "founded": 1956,
+      "area": 30,
+      "scale": "~25.000 sinh viên",
+      "website": "iuh.edu.vn"
+    },
+    {
+      "name": "Trường Đại học Kiến trúc Hà Nội",
+      "location": "Hà Nội",
+      "manager": "Bộ Xây dựng",
+      "type": "Công lập",
+      "founded": 1969,
+      "area": 8,
+      "scale": "~8.000 sinh viên",
+      "website": "hau.edu.vn"
+    },
+    {
+      "name": "Trường Đại học Lâm nghiệp",
+      "location": "Hà Nội",
+      "manager": "Bộ NN&MT",
+      "type": "Công lập",
+      "founded": 1964,
+      "area": 100,
+      "scale": "~10.000 sinh viên",
+      "website": "vnuf.edu.vn"
+    },
+    {
+      "name": "Học viện Tài chính",
+      "location": "Hà Nội",
+      "manager": "Bộ Tài chính",
+      "type": "Công lập",
+      "founded": 1963,
+      "area": 6,
+      "scale": "~15.000 sinh viên",
+      "website": "hvtc.edu.vn"
+    },
+    {
+      "name": "Trường Đại học Tài chính - Marketing",
+      "location": "TP.HCM",
+      "manager": "Bộ Tài chính",
+      "type": "Công lập",
+      "founded": 1976,
+      "area": 10,
+      "scale": "~20.000 sinh viên",
+      "website": "ufm.edu.vn"
+    },
+    {
+      "name": "Trường Đại học Luật Hà Nội",
+      "location": "Hà Nội",
+      "manager": "Bộ Tư pháp",
+      "type": "Công lập",
+      "founded": 1979,
+      "area": 8,
+      "scale": "~12.000 sinh viên",
+      "website": "hlu.edu.vn"
+    },
+    {
+      "name": "Học viện Hành chính Quốc gia",
+      "location": "Hà Nội",
+      "manager": "Bộ Nội vụ",
+      "type": "Công lập",
+      "founded": 1959,
+      "area": 10,
+      "scale": "~10.000 sinh viên",
+      "website": "napa.gov.vn"
+    },
+    {
+      "name": "Học viện Khoa học và Công nghệ",
+      "location": "Hà Nội",
+      "manager": "Bộ KH&CN",
+      "type": "Công lập",
+      "founded": 1975,
+      "area": 5,
+      "scale": "Cao học, NCS",
+      "website": "gust.edu.vn"
+    },
+    {
+      "name": "Học viện Chính trị Quốc gia Hồ Chí Minh",
+      "location": "Hà Nội",
+      "manager": "Cơ quan TW khác",
+      "type": "Công lập",
+      "founded": 1949,
+      "area": 15,
+      "scale": "Cao học, NCS",
+      "website": "hcma.vn"
+    },
+    {
+      "name": "Học viện Chính trị Khu vực I",
+      "location": "Hà Nội",
+      "manager": "Cơ quan TW khác",
+      "type": "Công lập",
+      "founded": 1949,
+      "area": 10,
+      "scale": "Cao học",
+      "website": "hocvienct1.vn"
+    },
+    {
+      "name": "Trường Đại học Sư phạm TP.HCM",
+      "location": "TP.HCM",
+      "manager": "UBND Tỉnh/Thành",
+      "type": "Công lập",
+      "founded": 1976,
+      "area": 10,
+      "scale": "~15.000 sinh viên",
+      "website": "hcmue.edu.vn"
+    },
+    {
+      "name": "Trường Đại học Khoa học Tự nhiên (ĐHQG TP.HCM)",
+      "location": "TP.HCM",
+      "manager": "UBND Tỉnh/Thành",
+      "type": "Công lập",
+      "founded": 1996,
+      "area": 15,
+      "scale": "~12.000 sinh viên",
+      "website": "hcmus.edu.vn"
+    },
+    {
+      "name": "Trường Đại học Kinh tế TP.HCM",
+      "location": "TP.HCM",
+      "manager": "UBND Tỉnh/Thành",
+      "type": "Công lập",
+      "founded": 1976,
+      "area": 12,
+      "scale": "~25.000 sinh viên",
+      "website": "ueh.edu.vn"
+    },
+    {
+      "name": "Trường Đại học Đà Lạt",
+      "location": "Lâm Đồng",
+      "manager": "UBND Tỉnh/Thành",
+      "type": "Công lập",
+      "founded": 1976,
+      "area": 50,
+      "scale": "~10.000 sinh viên",
+      "website": "dlu.edu.vn"
+    },
+    {
+      "name": "Trường Đại học Quy Nhơn",
+      "location": "Bình Định",
+      "manager": "UBND Tỉnh/Thành",
+      "type": "Công lập",
+      "founded": 1977,
+      "area": 30,
+      "scale": "~10.000 sinh viên",
+      "website": "qnu.edu.vn"
+    },
+    {
+      "name": "Trường Đại học Duy Tân",
+      "location": "Đà Nẵng",
+      "manager": "Ngoài công lập",
+      "type": "Ngoài công lập",
+      "founded": 1994,
+      "area": 25,
+      "scale": "~20.000 sinh viên",
+      "website": "duytan.edu.vn"
+    },
+    {
+      "name": "Trường Đại học Tôn Đức Thắng",
+      "location": "TP.HCM",
+      "manager": "Ngoài công lập",
+      "type": "Ngoài công lập",
+      "founded": 1997,
+      "area": 30,
+      "scale": "~25.000 sinh viên",
+      "website": "tdtu.edu.vn"
+    },
+    {
+      "name": "Trường Đại học Văn Lang",
+      "location": "TP.HCM",
+      "manager": "Ngoài công lập",
+      "type": "Ngoài công lập",
+      "founded": 1995,
+      "area": 20,
+      "scale": "~20.000 sinh viên",
+      "website": "vanlanguni.edu.vn"
+    },
+    {
+      "name": "Trường Đại học Công nghệ TP.HCM (HUTECH)",
+      "location": "TP.HCM",
+      "manager": "Ngoài công lập",
+      "type": "Ngoài công lập",
+      "founded": 1995,
+      "area": 18,
+      "scale": "~25.000 sinh viên",
+      "website": "hutech.edu.vn"
+    },
+    {
+      "name": "Trường Đại học Thăng Long",
+      "location": "Hà Nội",
+      "manager": "Ngoài công lập",
+      "type": "Ngoài công lập",
+      "founded": 1988,
+      "area": 10,
+      "scale": "~8.000 sinh viên",
+      "website": "thanglong.edu.vn"
+    },
+    {
+      "name": "Trường Đại học Phương Đông",
+      "location": "Hà Nội",
+      "manager": "Ngoài công lập",
+      "type": "Ngoài công lập",
+      "founded": 1994,
+      "area": 8,
+      "scale": "~5.000 sinh viên",
+      "website": "phuongdong.edu.vn"
+    },
+    {
+      "name": "Trường Đại học Đại Nam",
+      "location": "Hà Nội",
+      "manager": "Ngoài công lập",
+      "type": "Ngoài công lập",
+      "founded": 2007,
+      "area": 10.5,
+      "scale": "~10.000 sinh viên",
+      "website": "dainam.edu.vn"
+    },
+    {
+      "name": "Trường Đại học Phenikaa",
+      "location": "Hà Nội",
+      "manager": "Ngoài công lập",
+      "type": "Ngoài công lập",
+      "founded": 2007,
+      "area": 15,
+      "scale": "~8.000 sinh viên",
+      "website": "phenikaa-uni.edu.vn"
+    },
+    {
+      "name": "Trường Đại học Hòa Bình",
+      "location": "Hà Nội",
+      "manager": "Ngoài công lập",
+      "type": "Ngoài công lập",
+      "founded": 2001,
+      "area": 12,
+      "scale": "~5.000 sinh viên",
+      "website": "hoabinh.edu.vn"
+    },
+    {
+      "name": "Trường Đại học Kinh doanh và Công nghệ Hà Nội",
+      "location": "Hà Nội",
+      "manager": "Ngoài công lập",
+      "type": "Ngoài công lập",
+      "founded": 1996,
+      "area": 10,
+      "scale": "~8.000 sinh viên",
+      "website": "hubt.edu.vn"
+    },
+    {
+      "name": "Trường Đại học Nguyễn Tất Thành",
+      "location": "TP.HCM",
+      "manager": "Ngoài công lập",
+      "type": "Ngoài công lập",
+      "founded": 1999,
+      "area": 15,
+      "scale": "~15.000 sinh viên",
+      "website": "ntt.edu.vn"
+    },
+    {
+      "name": "Trường Đại học Hạ Long",
+      "location": "Quảng Ninh",
+      "manager": "Ngoài công lập",
+      "type": "Ngoài công lập",
+      "founded": 2014,
+      "area": 20,
+      "scale": "~5.000 sinh viên",
+      "website": "daihochalong.edu.vn"
+    },
+    {
+      "name": "Trường Đại học Kinh tế Công nghiệp Long An",
+      "location": "Long An",
+      "manager": "Ngoài công lập",
+      "type": "Ngoài công lập",
+      "founded": 2001,
+      "area": 15,
+      "scale": "~5.000 sinh viên",
+      "website": "daihoclongan.edu.vn"
+    }
+  ]
+}
