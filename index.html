@@ -60,7 +60,7 @@ main{min-width:0;padding:20px 24px 28px}.top{display:flex;align-items:center;jus
   <section class="panel"><div class="panel-head"><h3>🗺️ Phân bố theo địa điểm</h3><span class="muted">WGS84 · EPSG:4326</span></div><div id="map"></div><div class="map-bottom">● Kích thước vòng tròn = số bản ghi theo địa điểm · Điểm địa điểm chỉ mang tính đại diện</div></section>
   <div class="charts"><section class="panel"><div class="panel-head"><h3>Phân loại cơ sở đào tạo</h3></div><div class="chart-inner"><canvas id="typeChart"></canvas></div></section><section class="panel"><div class="panel-head"><h3>Top địa điểm theo số cơ sở</h3></div><div class="chart-inner"><canvas id="cityChart"></canvas></div></section></div>
  </div>
- <section class="panel table-panel"><div class="panel-head"><h3>📋 Danh mục tra cứu</h3><span class="muted" id="count">—</span></div><div style="padding:8px 16px" id="notice"></div><div class="table-scroll"><table><thead><tr><th>Trường / Cơ sở</th><th>Địa điểm nguồn</th><th>Loại hình</th><th>Cơ quan quản lý</th><th>Thành lập</th><th>Diện tích (ha)*</th><th>Quy mô*</th><th>Website</th></tr></thead><tbody id="rows"></tbody></table></div></section>
+ <section class="panel table-panel"><div class="panel-head"><h3>🎯 Mục tiêu 226 cơ sở theo ảnh nguồn</h3><span class="muted" id="target-check">Đang tải</span></div><div class="table-scroll" style="max-height:340px"><table><thead><tr><th>Nhóm quản lý / loại hình</th><th>Số cơ sở</th></tr></thead><tbody id="target-rows"></tbody></table></div><div class="map-bottom">Các chỉ tiêu theo ảnh nguồn, chưa xác minh danh mục 226 trường độc lập.</div></section><section class="panel table-panel"><div class="panel-head"><h3>📋 Danh mục tra cứu</h3><span class="muted" id="count">—</span></div><div style="padding:8px 16px" id="notice"></div><div class="table-scroll"><table><thead><tr><th>Trường / Cơ sở</th><th>Địa điểm nguồn</th><th>Loại hình</th><th>Cơ quan quản lý</th><th>Thành lập</th><th>Diện tích (ha)*</th><th>Quy mô*</th><th>Website</th></tr></thead><tbody id="rows"></tbody></table></div></section>
  <footer>* Các giá trị diện tích, quy mô và phân loại của bản dữ liệu mẫu chưa được xác minh độc lập. Không sử dụng làm thống kê chính thức.<br>© 2026 Long Ngo · MIT · Nền bản đồ © OpenStreetMap contributors / Esri theo lớp chọn</footer>
 </main></div>
 <script>
@@ -93,7 +93,8 @@ $('#search').value='';
 $('#catalog').addEventListener('change',()=>{
 all=$('#catalog').value==='sample'?samples:candidates;
 $('#data-status').textContent=all.length+($('#catalog').value==='sample'?' hồ sơ minh họa':' ứng viên 2025 · chưa xác minh 2026');
-resetFilterOptions();filter();
+resetFilterOptions();fetch('./data/target_226.json').then(r=>r.json()).then(d=>{let sum=0;for(const g of d.groups){sum+=g.count;const row=document.createElement('tr');for(const value of [g.name,g.source_label]){const cell=document.createElement('td');cell.textContent=value;row.appendChild(cell)}document.querySelector('#target-rows').appendChild(row)}document.querySelector('#target-check').textContent=sum===226?'Tổng đối chiếu: 226/226':'Sai lệch: '+sum}).catch(e=>document.querySelector('#target-check').textContent='Không tải được cơ cấu: '+e.message);
+filter();
 });
 const unique=k=>[...new Set(all.map(d=>d[k]).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'vi'));
 resetFilterOptions();
