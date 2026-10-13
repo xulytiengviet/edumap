@@ -1,6 +1,10 @@
 name: Import reference directory (manual)
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - 'tools/import_candidates.py'
+      - '.github/workflows/import-candidates.yml'
 permissions:
   contents: write
 jobs:
